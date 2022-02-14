@@ -46,3 +46,4 @@ class Handler(RequestHandler):
 
     def post(self):
         print(self.request)
+        dir(self.request)
