@@ -66,5 +66,7 @@ class Handler(RequestHandler):
             "CreateTime": time.time(),
             "Content": data.get("Content"),
         }
+        print("msg", msg)
         data = make_msg(**msg)
+        print("msg", data)
         self.write(data)
