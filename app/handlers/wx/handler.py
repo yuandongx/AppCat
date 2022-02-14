@@ -20,6 +20,7 @@ def parse_xml(data):
     result["CreateTime"] = xml_data.find('CreateTime').text
     result["MsgType"] = xml_data.find('MsgType').text
     result["MsgId"] = xml_data.find('MsgId').text
+    result["Content"] = xml_data.find('Content').text
     return result
 
 
