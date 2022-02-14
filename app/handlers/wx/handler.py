@@ -1,13 +1,26 @@
+import time
+
 from tornado.web import RequestHandler
 import hashlib
 from xml.etree import ElementTree as ET
+
+
+def parse_msg_body(msg):
+    if isinstance(msg, (str, bytes)):
+        return parse_xml(msg)
 
 
 def parse_xml(data):
     if len(data) == 0:
         return
     xml_data = ET.fromstring(data)
-    
+    result = {}
+    result["ToUserName"] = xml_data.find('ToUserName').text
+    result["FromUserName"] = xml_data.find('FromUserName').text
+    result["CreateTime"] = xml_data.find('CreateTime').text
+    result["MsgType"] = xml_data.find('MsgType').text
+    result["MsgId"] = xml_data.find('MsgId').text
+    return result
 
 
 def make_msg(**kwargs):
@@ -20,6 +33,7 @@ def make_msg(**kwargs):
                     <Content><![CDATA[{Content}]]></Content>
                 </xml>
                 """
+    return XmlForm.format(**kwargs)
 
 
 def check_signature(param, signature):
@@ -45,7 +59,11 @@ class Handler(RequestHandler):
             self.write("")
 
     def post(self):
-        print(self.request, "<<<32343")
-        print(dir(self.request), "<<<<1111")
-        print(dir(self.request.body), "<<<<1111")
-        print(self.request.body, "<<<<1111")
+        data = parse_xml(self.request.body)
+        msg = {
+            "ToUserName": data.get("FromUserName"),
+            "FromUserName": data.get("ToUserName"),
+            "CreateTime": time.time(),
+            "Content": data.get("Content"),
+        }
+        msg = make_msg()
