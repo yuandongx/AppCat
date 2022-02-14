@@ -45,5 +45,5 @@ class Handler(RequestHandler):
             self.write("")
 
     def post(self):
-        print(self.request)
-        dir(self.request)
+        print(self.request, "<<<32343")
+        print(dir(self.request), "<<<<1111")
