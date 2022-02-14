@@ -1,5 +1,25 @@
 from tornado.web import RequestHandler
 import hashlib
+from xml.etree import ElementTree as ET
+
+
+def parse_xml(data):
+    if len(data) == 0:
+        return
+    xml_data = ET.fromstring(data)
+    
+
+
+def make_msg(**kwargs):
+    XmlForm = """
+                <xml>
+                    <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
+                    <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
+                    <CreateTime>{CreateTime}</CreateTime>
+                    <MsgType><![CDATA[text]]></MsgType>
+                    <Content><![CDATA[{Content}]]></Content>
+                </xml>
+                """
 
 
 def check_signature(param, signature):
@@ -25,4 +45,4 @@ class Handler(RequestHandler):
             self.write("")
 
     def post(self):
-        pass
+        print(self.request)
