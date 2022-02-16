@@ -8,7 +8,9 @@ from .settings import APPLICATION_SETTINGS
 
 
 class Application:
-
+    """
+    Application
+    """
     def __init__(self, port=8888):
         """
         __init__
