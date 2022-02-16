@@ -14,7 +14,7 @@ def parse_msg_body(msg):
     """
     if isinstance(msg, (str, bytes)):
         return parse_xml(msg)
-    return
+    return None
 
 
 def parse_xml(data):
@@ -22,11 +22,14 @@ def parse_xml(data):
     parse_xml
     """
     if len(data) == 0:
-        return None
+        return {}
     xml_data = ET.fromstring(data)
-    result = {"ToUserName": xml_data.find('ToUserName').text, "FromUserName": xml_data.find('FromUserName').text,
-              "CreateTime": xml_data.find('CreateTime').text, "MsgType": xml_data.find('MsgType').text,
-              "MsgId": xml_data.find('MsgId').text, "Content": xml_data.find('Content').text}
+    result = {"ToUserName": xml_data.find('ToUserName').text,
+              "FromUserName": xml_data.find('FromUserName').text,
+              "CreateTime": xml_data.find('CreateTime').text,
+              "MsgType": xml_data.find('MsgType').text,
+              "MsgId": xml_data.find('MsgId').text,
+              "Content": xml_data.find('Content').text}
     return result
 
 
@@ -34,7 +37,7 @@ def make_msg(**kwargs):
     """
     make_msg
     """
-    XmlForm = """
+    xml_form = """
                 <xml>
                     <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
                     <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
@@ -43,7 +46,7 @@ def make_msg(**kwargs):
                     <Content><![CDATA[{Content}]]></Content>
                 </xml>
                 """
-    return XmlForm.format(**kwargs)
+    return xml_form.format(**kwargs)
 
 
 def check_signature(param, signature):
@@ -59,6 +62,7 @@ def check_signature(param, signature):
 
 
 class Handler(RequestHandler):
+    """Handler"""
     def get(self):
         """
 
