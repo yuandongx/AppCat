@@ -9,28 +9,28 @@ class BaseHandler(object):
         """
         __init__
         """
-        pass
+        print()
 
     def query(self):
         """
         :rtype: object
         """
-        pass
+        print()
 
     def update(self):
         """
         :rtype: object
         """
-        pass
+        print()
 
     def add(self):
         """
         :rtype: object
         """
-        pass
+        print()
 
     def delete(self):
         """
         :rtype: object
         """
-        pass
+        print()
