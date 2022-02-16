@@ -1,10 +1,10 @@
 """
 Application
 """
-from .urls import urls
-from .settings import APPLICATION_SETTINGS
 from tornado.web import Application as App
 from tornado.ioloop import IOLoop
+from .urls import urls
+from .settings import APPLICATION_SETTINGS
 
 
 class Application(object):
