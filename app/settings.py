@@ -4,3 +4,5 @@ APPLICATION_SETTINGS = {
     "debug": True,
     "autoreload": True,
 }
+
+WX_TOKEN = ""

@@ -1,5 +1,5 @@
 import time
-
+from ...settings import WX_TOKEN
 from tornado.web import RequestHandler
 import hashlib
 from xml.etree import ElementTree as ET
@@ -52,7 +52,8 @@ class Handler(RequestHandler):
         timestamp = self.get_argument("timestamp", None)
         nonce = self.get_argument("nonce", None)
         echostr = self.get_argument("echostr", None)
-        token = "weimaomao"  # 请按照公众平台官网\基本配置中信息填写
+        # token = "weimaomao"  # 请按照公众平台官网\基本配置中信息填写
+        token = WX_TOKEN  # 请按照公众平台官网\基本配置中信息填写
         checked = check_signature([token, timestamp, nonce], signature)
         if checked:
             self.write(echostr)

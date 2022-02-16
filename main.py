@@ -1,3 +1,7 @@
+"""
+Main the application enry.
+"""
+
 from app.application import Application
 
 
