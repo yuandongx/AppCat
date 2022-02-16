@@ -7,12 +7,19 @@ from .urls import urls
 from .settings import APPLICATION_SETTINGS
 
 
-class Application(object):
+class Application:
 
     def __init__(self, port=8888):
+        """
+        __init__
+        :param port:
+        """
         self.port = port
 
     def run(self):
+        """
+        run
+        """
         app = App(urls, **APPLICATION_SETTINGS)
         app.listen(self.port)
         IOLoop.current().start()
