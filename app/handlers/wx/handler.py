@@ -2,10 +2,10 @@
 wx handler
 """
 import time
-from ...settings import WX_TOKEN
+import hashlib
 from xml.etree import ElementTree as ET
 from tornado.web import RequestHandler
-import hashlib
+from ...settings import WX_TOKEN
 
 
 def parse_msg_body(msg):
@@ -63,6 +63,10 @@ def check_signature(param, signature):
 
 class Handler(RequestHandler):
     def get(self):
+        """
+
+        :rtype: None
+        """
         signature = self.get_argument("signature", None)
         timestamp = self.get_argument("timestamp", None)
         nonce = self.get_argument("nonce", None)
@@ -76,6 +80,10 @@ class Handler(RequestHandler):
             self.write("")
 
     def post(self):
+        """
+
+        :rtype: object
+        """
         data = parse_xml(self.request.body)
         msg = {
             "ToUserName": data.get("FromUserName"),
