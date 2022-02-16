@@ -1,16 +1,25 @@
+"""
+wx handler
+"""
 import time
 from ...settings import WX_TOKEN
+from xml.etree import ElementTree as ET
 from tornado.web import RequestHandler
 import hashlib
-from xml.etree import ElementTree as ET
 
 
 def parse_msg_body(msg):
+    """
+    parse_msg_body
+    """
     if isinstance(msg, (str, bytes)):
         return parse_xml(msg)
 
 
 def parse_xml(data):
+    """
+    parse_xml
+    """
     if len(data) == 0:
         return
     xml_data = ET.fromstring(data)
@@ -25,6 +34,9 @@ def parse_xml(data):
 
 
 def make_msg(**kwargs):
+    """
+    make_msg
+    """
     XmlForm = """
                 <xml>
                     <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
@@ -38,6 +50,9 @@ def make_msg(**kwargs):
 
 
 def check_signature(param, signature):
+    """
+    check_signature
+    """
     sha1 = hashlib.sha1()
     param.sort()
     for p in param:
