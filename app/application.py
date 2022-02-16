@@ -1,6 +1,10 @@
+"""
+Application
+"""
 from .urls import urls
 from .settings import APPLICATION_SETTINGS
-import tornado.web
+from tornado.web import Application as App
+from tornado.ioloop import IOLoop
 
 
 class Application(object):
@@ -9,6 +13,6 @@ class Application(object):
         self.port = port
 
     def run(self):
-        app = tornado.web.Application(urls, **APPLICATION_SETTINGS)
+        app = App(urls, **APPLICATION_SETTINGS)
         app.listen(self.port)
-        tornado.ioloop.IOLoop.current().start()
+        IOLoop.current().start()
