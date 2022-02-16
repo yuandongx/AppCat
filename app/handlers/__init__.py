@@ -3,7 +3,7 @@ base
 """
 
 
-class BaseHandler(object):
+class BaseHandler:
 
     def __init__(self):
         """
