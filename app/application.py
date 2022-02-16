@@ -11,6 +11,7 @@ class Application:
     """
     Application
     """
+
     def __init__(self, port=8888):
         """
         __init__
@@ -18,10 +19,14 @@ class Application:
         """
         self.port = port
 
+    def setup(self):
+        print("setup")
+
     def run(self):
         """
         run
         """
+        self.setup()
         app = App(urls, **APPLICATION_SETTINGS)
         app.listen(self.port)
         IOLoop.current().start()
