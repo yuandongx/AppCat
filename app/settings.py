@@ -7,4 +7,4 @@ APPLICATION_SETTINGS = {
     "autoreload": True,
 }
 
-WX_TOKEN = ""
+WX_TOKEN = "weimaomao"
