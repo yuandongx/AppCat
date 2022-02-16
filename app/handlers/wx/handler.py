@@ -56,8 +56,8 @@ def check_signature(param, signature):
     """
     sha1 = hashlib.sha1()
     param.sort()
-    for p in param:
-        sha1.update(p.encode())
+    for pa in param:
+        sha1.update(pa.encode())
     hashcode = sha1.hexdigest()
     return hashcode == signature
 
