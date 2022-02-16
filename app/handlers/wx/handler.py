@@ -14,6 +14,7 @@ def parse_msg_body(msg):
     """
     if isinstance(msg, (str, bytes)):
         return parse_xml(msg)
+    return
 
 
 def parse_xml(data):
