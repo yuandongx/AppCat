@@ -22,15 +22,11 @@ def parse_xml(data):
     parse_xml
     """
     if len(data) == 0:
-        return
+        return None
     xml_data = ET.fromstring(data)
-    result = {}
-    result["ToUserName"] = xml_data.find('ToUserName').text
-    result["FromUserName"] = xml_data.find('FromUserName').text
-    result["CreateTime"] = xml_data.find('CreateTime').text
-    result["MsgType"] = xml_data.find('MsgType').text
-    result["MsgId"] = xml_data.find('MsgId').text
-    result["Content"] = xml_data.find('Content').text
+    result = {"ToUserName": xml_data.find('ToUserName').text, "FromUserName": xml_data.find('FromUserName').text,
+              "CreateTime": xml_data.find('CreateTime').text, "MsgType": xml_data.find('MsgType').text,
+              "MsgId": xml_data.find('MsgId').text, "Content": xml_data.find('Content').text}
     return result
 
 
