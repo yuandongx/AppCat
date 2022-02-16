@@ -20,6 +20,10 @@ class Application:
         self.port = port
 
     def setup(self):
+        """
+        setup
+        :return:
+        """
         print("setup")
 
     def run(self):
