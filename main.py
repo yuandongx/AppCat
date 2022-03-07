@@ -2,9 +2,8 @@
 Main the application enry.
 """
 
-from app.application import Application
+from app.application import make_app
 
 
 if __name__ == "__main__":
-    app = Application()
-    app.run()
+    make_app()
