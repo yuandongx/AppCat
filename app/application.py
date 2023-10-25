@@ -15,7 +15,8 @@ def db_url() -> str:
     """
     for db url
     """
-    return "mongodb://{username}:{password}@{host}/{db}?retryWrites=true&w=majority".format(**DB_CONNECTION)
+    return "mongodb://{username}:{password}@{host}/{db}?\
+        retryWrites=true&w=majority".format(**DB_CONNECTION)
 
 class Application:
     """
@@ -44,7 +45,7 @@ class Application:
         """
         self.setup()
         app = App(urls, db=self.db_client, **APPLICATION_SETTINGS)
-        for key in DEFAULT_APP_SETTINGS:
-            app.settings[f"{APP_VAR_PREFIX}{key}"] = DEFAULT_APP_SETTINGS[key]
+        for key, value in DEFAULT_APP_SETTINGS.items():
+            app.settings[f"{APP_VAR_PREFIX}{key}"] = value
         app.listen(self.port)
         IOLoop.current().start()
