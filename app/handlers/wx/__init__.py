@@ -6,4 +6,5 @@ __all__ = ['WxHandler']
 
 
 def log():
+    """TO-DO"""
     pass
