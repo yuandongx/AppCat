@@ -4,7 +4,7 @@ wx handler
 import time
 import hashlib
 from xml.etree import ElementTree as ET
-from .handler import BaseHandler
+from .base import BaseHandler
 from ...settings import WX_TOKEN
 
 
