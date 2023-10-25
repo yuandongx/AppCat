@@ -61,7 +61,7 @@ def check_signature(param, signature):
     return hashcode == signature
 
 
-class Handler(BaseHandler):
+class WxHandler(BaseHandler):
     """Handler"""
     def get(self):
         """

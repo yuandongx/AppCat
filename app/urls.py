@@ -1,8 +1,8 @@
 """
 url the router for all handlers.
 """
-from app.handlers.wx.handler import Handler
+from app.handlers.wx import WxHandler
 
 urls = [
-            (r"/wx", Handler),
+            (r"/wx", WxHandler),
         ]

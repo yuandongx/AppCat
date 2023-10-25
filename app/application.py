@@ -12,7 +12,9 @@ from .urls import urls
 
 
 def db_url() -> str:
-    # mongodb://[username:password@]host1[:port1][,...hostN[:portN]][/[defaultauthdb][?options]]
+    """
+    for db url
+    """
     return "mongodb://{username}:{password}@{host}/{db}?retryWrites=true&w=majority".format(**DB_CONNECTION)
 
 class Application:
