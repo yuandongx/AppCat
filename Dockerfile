@@ -1,4 +1,4 @@
-FROM python:latest
+FROM python:3.12-alpine3.18
 ENV APP_PORT=8888
 RUN mkdir /opt/wx-app
 COPY ./app /opt/wx-app/app
