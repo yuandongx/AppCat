@@ -4,7 +4,7 @@ wx handler
 import time
 import hashlib
 from xml.etree import ElementTree as ET
-from tornado.web import RequestHandler
+from .handler import BaseHandler
 from ...settings import WX_TOKEN
 
 
@@ -61,11 +61,10 @@ def check_signature(param, signature):
     return hashcode == signature
 
 
-class Handler(RequestHandler):
+class Handler(BaseHandler):
     """Handler"""
     def get(self):
         """
-
         :rtype: None
         """
         signature = self.get_argument("signature", None)
