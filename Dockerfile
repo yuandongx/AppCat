@@ -1,9 +1,23 @@
-FROM python:3.12-alpine3.18
-ENV APP_PORT=8888
-RUN mkdir /opt/wx-app
-COPY ./app /opt/wx-app/app
-COPY main.py /opt/wx-app/main.py
-COPY  requirements.txt /opt/wx-app/requirements.txt
-RUN pip install --upgrade pip && pip install -r /opt/wx-app/requirements.txt
-EXPOSE ${APP_PORT}
-CMD ["python", "/opt/wx-app/main.py"]
+# For more information, please refer to https://aka.ms/vscode-docker-python
+FROM python:3.10-slim
+
+# Keeps Python from generating .pyc files in the container
+ENV PYTHONDONTWRITEBYTECODE=1
+
+# Turns off buffering for easier container logging
+ENV PYTHONUNBUFFERED=1
+
+# Install pip requirements
+COPY requirements.txt .
+RUN python -m pip install -r requirements.txt
+
+WORKDIR /app
+COPY . /app
+
+# Creates a non-root user with an explicit UID and adds permission to access the /app folder
+# For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers
+RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
+USER appuser
+
+# During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
+CMD ["python", "main.py"]
