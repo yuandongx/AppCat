@@ -1,11 +1,12 @@
 version: '3.0'
 services:
   wx_app:
-    image: ghcr.io/yuandongx/wx_app
+    image: ghcr.io/yuandongx/wx_app:develop
     restart: always
+    command: tail -20f /dev/null
     ports:
       - "80:8888"
+      - "10022:22"
     volumes:
-      - ../wx_app:/opt/workspace/wx_app
-      - ../wx_app:/opt/workspace/wx_app
+      - /home/xuyuandong/workspace:/opt/workspace
       
