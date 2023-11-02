@@ -1,7 +1,8 @@
 """wx"""
-from .handler import WxHandler
-
-__all__ = ['WxHandler']
+from .wx import WxHandler
+from .qy import QyHandler
+__all__ = ['WxHandler',
+       "QyHandler"]
 
 
 
