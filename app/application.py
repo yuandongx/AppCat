@@ -1,7 +1,6 @@
 """
 Application
 """
-from motor import motor_tornado
 from tornado.ioloop import IOLoop
 from tornado.web import Application as App
 
@@ -23,7 +22,7 @@ class Application:
     Application
     """
 
-    def __init__(self, port=8888):
+    def __init__(self, port=8000):
         """
         __init__
         :param port:
@@ -37,7 +36,7 @@ class Application:
         setup
         :return:
         """
-        self.db_client = motor_tornado.MotorClient(self.db_url)
+        pass
 
     def run(self):
         """
