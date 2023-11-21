@@ -20,4 +20,9 @@ class Base(RequestHandler):
             self.write(data)
         else:
             self.write({'data': data})
-        
+    
+    def prepare(self):
+        if self.request.headers.get("Content-Type", "").startswith("application/json"):
+            self.json_args = json.loads(self.request.body)
+        else:
+            self.json_args = None
