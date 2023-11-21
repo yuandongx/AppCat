@@ -1,2 +1,7 @@
+from .workspace import Financial
 __all__ = ['urls']
-urls = {}
+urls = {
+    "workspace": {
+        "financial": Financial,
+    }
+}

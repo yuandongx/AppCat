@@ -1,5 +1,5 @@
 """
-Main the application enry.
+Main the application entry.
 """
 
 from app.application import Application

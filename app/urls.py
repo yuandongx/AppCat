@@ -19,8 +19,8 @@ def get_router(options={}):
             rtn.append((parent, values, options))
         return rtn
     rtn = []
-    for key in urls:
-        res = render(f"/{key}", urls[key])
+    for key, value in urls.items():
+        res = render(f"/{key}", value)
         rtn.extend(res)
     return rtn
 

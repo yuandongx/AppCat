@@ -1,5 +1,6 @@
 FROM python:3.12-alpine3.18
 ENV APP_PORT=8000
+ENV APP_MONGODB_URL=mongodb://root:admin$12345@mongo:27017/
 RUN mkdir /opt/wx-app
 COPY ./app /opt/wx-app/app
 COPY main.py /opt/wx-app/main.py
