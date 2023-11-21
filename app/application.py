@@ -7,7 +7,7 @@ from tornado.web import Application as App
 from .settings import (APP_VAR_PREFIX, APPLICATION_SETTINGS,
                        DB_CONNECTION,
                        DEFAULT_APP_SETTINGS)
-from .urls import urls
+from .urls import get_router
 
 
 def db_url() -> str:
@@ -43,7 +43,8 @@ class Application:
         run
         """
         self.setup()
-        app = App(urls, db=self.db_client, **APPLICATION_SETTINGS)
+        route = get_router({"db": self.db_client})
+        app = App(route, **APPLICATION_SETTINGS)
         for key, value in DEFAULT_APP_SETTINGS.items():
             app.settings[f"{APP_VAR_PREFIX}{key}"] = value
         app.listen(self.port)

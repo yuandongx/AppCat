@@ -1,11 +1,9 @@
 """wx"""
 from .wx import WxHandler
 from .qy import QyHandler
-__all__ = ['WxHandler',
-       "QyHandler"]
+__all__ = ['urls']
 
-
-
-def log():
-    """TO-DO"""
-    print("to-do")
+urls = {
+    "wx": WxHandler,
+    "qy": QyHandler,
+}
