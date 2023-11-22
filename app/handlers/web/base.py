@@ -3,8 +3,9 @@
 '''
 from datetime import datetime
 import json
+from bson.objectid import ObjectId
 from tornado.web import RequestHandler
-
+from pymongo import DeleteOne, DeleteMany
 
 class Base(RequestHandler):
     '''
@@ -36,6 +37,15 @@ class Base(RequestHandler):
 
     def prepare(self):
         if self.request.headers.get("Content-Type", "").startswith("application/json"):
-            self.json_args = json.loads(self.request.body)
+            data = json.loads(self.request.body)
+            self.json_args = data.get('data') or data
         else:
             self.json_args = None
+
+    @staticmethod
+    def object_id(_id):
+        return ObjectId(_id)
+    
+    @staticmethod
+    def many_ids(array):
+        return [{'_id': ObjectId(item) for item in array}]
