@@ -16,11 +16,8 @@ class Financial(Base):
         self.json("ok")
 
     async def post(self):
-        print(self.json_args)
-        collection = self.db.test.test
-        res = await collection.insert_one(self.json_args)
-        print(res)
-        self.json('ok')
+        res = await self.collection.insert_one(self.json_args)
+        self.json({"status": 0, "_id": str(res.inserted_id)})
 
     def delete(self):
         self.json("ok")

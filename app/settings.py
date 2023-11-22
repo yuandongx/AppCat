@@ -11,7 +11,7 @@ APPLICATION_SETTINGS = {
 # 自定义APP变量的前缀值
 APP_VAR_PREFIX = "app_"
 DB_CONNECTION = {
-    "mongo_url": "mongodb://root:admin$12345@124.71.148.227:27017/",
+    "mongo_url": "mongodb://root:admin$12345@127.0.0.1:27017/",
     "mongo_db": "test",
 }
 
