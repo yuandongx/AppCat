@@ -13,11 +13,12 @@ def intsert(collection, data):
 
 class Financial(Base):
     def get(self):
+        print(self.get_argument('q'))
         self.json("ok")
 
     async def post(self):
         res = await self.collection.insert_one(self.json_args)
-        self.json({"status": 0, "_id": str(res.inserted_id)})
+        self.json({"code": 0, "_id": str(res.inserted_id)})
 
     async def delete(self):
         delete_id = self.json_args.get('del_ids')
@@ -29,9 +30,10 @@ class Financial(Base):
             else:
                 result = await self.collection.delete_one(self.object_id(delete_id))
             count = result.deleted_count
-            self.json({'statue': 0, 'deleted_count': count})
+            self.json({'code': 0, 'deleted_count': count})
         else:
-            self.json({'statue': -1, 'deleted_count': -1})
+            self.json({'code': -1, 'deleted_count': -1})
 
     async def patch(self):
         res = await self.collection.update_one(self.json_args)
+        self.json({'code': 0, 'matched_count': res.matched_count})
