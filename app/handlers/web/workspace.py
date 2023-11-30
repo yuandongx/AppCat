@@ -19,7 +19,7 @@ class Financial(Base):
     async def post(self):
         res = await self.collection.insert_one(self.json_args)
         self.json({"code": 0, "_id": str(res.inserted_id)})
-
+  
     async def delete(self):
         delete_id = self.json_args.get('del_ids')
         if delete_id is not None:
