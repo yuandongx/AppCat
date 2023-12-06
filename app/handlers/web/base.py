@@ -49,3 +49,33 @@ class Base(RequestHandler):
     @staticmethod
     def many_ids(array):
         return [{'_id': ObjectId(item) for item in array}]
+    
+    def find2(self, filters={}):
+        data = []
+        course = self.collection.find(filters)
+        def callback(result, error):
+            if error:
+                raise error
+            elif result:
+                result['_id'] = str(result['_id'])
+                print(result)
+                data.append(result)
+            else:
+                print("done")
+                
+        course.each(callback=callback)
+        print(data)
+        return data
+    
+    
+    async def find(self, filters={}):
+        data = []
+        cursor = self.collection.find(filters)
+        while await cursor.fetch_next:
+            doc = cursor.next_object()
+            doc['_id'] = str(doc['_id'])
+            print(type(doc))
+            data.append(doc)
+            print("done")
+        print(data)
+        return data
