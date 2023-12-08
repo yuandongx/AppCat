@@ -5,7 +5,7 @@ from tornado.ioloop import IOLoop
 from tornado.web import Application as App
 from motor.motor_tornado import MotorClient
 from .urls import get_router
-from .settings import load_env
+from .settings import load_env, setup_env
 class Application:
     """
     Application
@@ -17,7 +17,8 @@ class Application:
         :param port:
         """
         self.port = port
-        self.env = load_env()
+        self.env = {}
+        self.setup()
         self.db_client = MotorClient(self.env['mongo_url'])
 
     def setup(self):
@@ -25,7 +26,8 @@ class Application:
         setup
         :return:
         """
-        pass
+        setup_env()
+        self.env = load_env()
 
     def run(self):
         """

@@ -1,6 +1,11 @@
-from tornado.ioloop import IOLoop
-from .base import Base
 
+from pathlib import Path
+
+from tornado.ioloop import IOLoop
+from openpyxl import load_workbook
+
+from .base import Base
+from ...settings import get_env
 """
 财务视图
 """
@@ -38,3 +43,32 @@ class Financial(Base):
     async def patch(self):
         res = await self.collection.update_one(self.json_args)
         self.json({'code': 0, 'matched_count': res.matched_count})
+
+def get_sheet_names(file_name):
+    wb = load_workbook(file_name)
+    res = {}
+    for i, name in enumerate(wb.sheetnames):
+        res[f'{i}'] = name
+    return res
+
+class Upload(Base):
+    def post(self):
+        excel = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        rtn = {}
+        for file in self.request.files['file']:
+            if file['content_type'] == excel:
+                pth = get_env('data_file_save_path')
+                print(pth)
+                if not pth:
+                    pth = '.'
+                path = Path(pth).joinpath('财务报表')
+                if not path.exists():
+                    path.mkdir()
+                file_name = path.joinpath(file['filename'])
+                with file_name.open('wb') as f:
+                    f.write(file['body'])
+                sheet_names = get_sheet_names(file_name)
+                rtn[file['filename']] = sheet_names
+            else:
+                continue
+        self.json(rtn)
