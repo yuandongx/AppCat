@@ -45,7 +45,6 @@ def get_env(name):
         name = f'{APP_VAR_PREFIX}{name}'
     name = name.upper()
     try:
-        print(os.environ, name, )
         return os.environ[name]
     except:
         return None

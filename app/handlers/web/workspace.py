@@ -1,20 +1,16 @@
 
 from pathlib import Path
 
-from tornado.ioloop import IOLoop
+from tornado import gen
+from pymongo import InsertOne
 from openpyxl import load_workbook
-
+from .excel_handle.rd import read
 from .base import Base
 from ...settings import get_env
 """
 财务视图
 """
-def intsert(collection, data):
-    async def do_insert():
-        document = {"key": "value"}
-        result = await collection.insert_one(document)
-        print("result %s" % repr(result.inserted_id))
-    IOLoop.current().run_sync(do_insert)
+
 
 class Financial(Base):
     async def get(self):
@@ -51,20 +47,34 @@ def get_sheet_names(file_name):
         res[f'{i}'] = name
     return res
 
+async def read_and_save(collection, filename, sheetnames):
+    result = read(filename, sheetnames)
+    requests = [InsertOne(item) for item in result]
+    return await collection.bulk_write(requests)
+    
 class Upload(Base):
+    
+    async def get(self):
+        sheets = self.get_argument('sheets')
+        file_name = self.get_argument('file_name')
+        split_ = self.get_argument('split')
+        if split_ in sheets:
+            sheets = sheets.split(split_)
+        else:
+            sheets = [sheets]
+        file_name = self.get_file_name(file_name)
+        if file_name.exists():
+            result = await read_and_save(self.collection, file_name, sheets)
+            self.json({'insertCount': result.inserted_count})
+        else:
+            self.json({'insertCount': 0, 'error': f'服务器上不存在`{file_name}`文件。'})
+    
     def post(self):
         excel = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         rtn = {}
         for file in self.request.files['file']:
             if file['content_type'] == excel:
-                pth = get_env('data_file_save_path')
-                print(pth)
-                if not pth:
-                    pth = '.'
-                path = Path(pth).joinpath('财务报表')
-                if not path.exists():
-                    path.mkdir()
-                file_name = path.joinpath(file['filename'])
+                file_name = self.get_file_name(file['filename'])
                 with file_name.open('wb') as f:
                     f.write(file['body'])
                 sheet_names = get_sheet_names(file_name)
@@ -72,3 +82,12 @@ class Upload(Base):
             else:
                 continue
         self.json(rtn)
+    
+    def get_file_name(self, name):
+        pth = get_env('data_file_save_path')
+        if not pth:
+            pth = '.'
+        path = Path(pth).joinpath('财务报表')
+        if not path.exists():
+            path.mkdir()
+        return path.joinpath(name)
