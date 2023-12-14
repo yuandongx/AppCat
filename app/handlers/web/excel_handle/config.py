@@ -1,6 +1,6 @@
 STYLE_1 = {
     'headers': {
-        "A": {'name': 'Id', 'lable': '', 'hit': False},
+        "A": {'name': 'Key', 'lable': '', 'hit': False},
         "B": {'name': 'BusinessDepartment', 'lable': '业务部门'},
         "C": {'name': 'CompanyName', 'lable': '企业名称'},
         "D": {'name': 'InvoiceType', 'lable': '发票种类'},
@@ -14,11 +14,11 @@ STYLE_1 = {
         "L": {'name': 'PaymentDateOfAmount', 'lable': '支付劳务费金额'},
         "M": {'name': 'Comment', 'lable': '备注.重要'},
     },
-    "start": 2,
+    "start": 3,
 }
 STYLE_2 = {
     'headers': {
-        "A": {'name': 'Id', 'lable': '', 'hit': False},
+        "A": {'name': 'Key', 'lable': '', 'hit': False},
         "B": {'name': 'BusinessDepartment', 'lable': '业务部门'},
         "C": {'name': 'CompanyName', 'lable': '企业名称'},
         "D": {'name': 'InvoiceType', 'lable': '发票种类'},
@@ -29,5 +29,5 @@ STYLE_2 = {
         "I": {'name': 'PaymentDate', 'lable': '对方付款日期'},
         "J": {'name': 'PaymentAmount', 'lable': '对方付款金额'},        
     },
-    "start": 2,
+    "start": 3,
 }

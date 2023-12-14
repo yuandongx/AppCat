@@ -1,5 +1,4 @@
 from pathlib import Path
-import asyncio
 from openpyxl import load_workbook
 from openpyxl.utils.cell import column_index_from_string, get_column_letter
 from openpyxl.cell import MergedCell
@@ -52,7 +51,7 @@ def read(file_name, sheet_names=None):
                 else:
                     value = cell.value
                 row[name] = value
-            if not all(row.values()):
+            if row['CompanyName'] is None:
                 continue
             row['file_name'] = file_name
             row['sheet_name'] = sheetname
@@ -63,4 +62,5 @@ def read(file_name, sheet_names=None):
 if __name__ == '__main__':
     pth = Path(__file__).parent.joinpath('test', '操作信息统计表表.xlsx').as_posix()
     res = read(pth)
+    print(res)
     

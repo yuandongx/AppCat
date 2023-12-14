@@ -2,7 +2,7 @@
 from pathlib import Path
 
 from tornado import gen
-from pymongo import InsertOne
+from pymongo import ReplaceOne, UpdateOne
 from openpyxl import load_workbook
 from .excel_handle.rd import read
 from .base import Base
@@ -49,8 +49,12 @@ def get_sheet_names(file_name):
 
 async def read_and_save(collection, filename, sheetnames):
     result = read(filename, sheetnames)
-    requests = [InsertOne(item) for item in result]
-    return await collection.bulk_write(requests)
+    updates = []
+    filter_keys = ('CompanyName', 'InvoiceDate', 'InvoiceAmount')
+    for item in result:
+        filters = {key: item[key] for key in filter_keys}
+        updates.append(ReplaceOne(filters, item, upsert=True))
+    return await collection.bulk_write(updates)
     
 class Upload(Base):
     
@@ -64,7 +68,8 @@ class Upload(Base):
             sheets = [sheets]
         file_name = self.get_file_name(file_name)
         if file_name.exists():
-            result = await read_and_save(self.collection, file_name, sheets)
+            filename = file_name.as_posix()
+            result = await read_and_save(self.collection, filename, sheets)
             self.json({'insertCount': result.inserted_count})
         else:
             self.json({'insertCount': 0, 'error': f'服务器上不存在`{file_name}`文件。'})
