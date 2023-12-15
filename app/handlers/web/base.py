@@ -7,6 +7,23 @@ from bson.objectid import ObjectId
 from tornado.web import RequestHandler
 from pymongo import DeleteOne, DeleteMany
 
+def refactor_date(d):
+    if isinstance(d, datetime):
+        return d.strftime("%Y-%m-%d")
+    else:
+        return str(d)
+
+def render(data):
+    if isinstance(data, (str, int, float, bool)):
+        return data
+    elif isinstance(data, (list, tuple)):
+        return [render(item) for item in data]
+    elif isinstance(data, dict):
+        return {key: render(value) for key, value in data.items()}
+    elif isinstance(data, datetime):
+        return refactor_date(data)
+    return data
+
 class Base(RequestHandler):
     '''
     定义集合的名称
@@ -33,7 +50,7 @@ class Base(RequestHandler):
         if isinstance(data, dict):
             self.write(data)
         else:
-            self.write({'data': data})
+            self.write(data)
 
     def prepare(self):
         if self.request.headers.get("Content-Type", "").startswith("application/json"):
@@ -64,7 +81,6 @@ class Base(RequestHandler):
                 print("done")
                 
         course.each(callback=callback)
-        print(data)
         return data
     
     
@@ -74,8 +90,6 @@ class Base(RequestHandler):
         while await cursor.fetch_next:
             doc = cursor.next_object()
             doc['_id'] = str(doc['_id'])
-            print(type(doc))
-            data.append(doc)
+            data.append(render(doc))
             print("done")
-        print(data)
         return data

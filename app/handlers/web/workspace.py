@@ -16,7 +16,7 @@ class Financial(Base):
     async def get(self):
         # print(self.get_argument('q'))
         data = await self.find()
-        self.json(data)
+        self.json({"data": data})
 
     async def post(self):
         res = await self.collection.insert_one(self.json_args)

@@ -13,7 +13,7 @@ def get_merged_first_cell(ranges, row, col):
 
 
 def read(file_name, sheet_names=None):
-    wb = load_workbook(filename=file_name)
+    wb = load_workbook(filename=file_name, data_only=True)
     rows = []
     for sheetname in wb.sheetnames:
         if sheet_names is not None and sheetname not in sheet_names:
