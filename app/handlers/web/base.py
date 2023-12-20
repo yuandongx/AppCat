@@ -5,7 +5,6 @@ from datetime import datetime
 import json
 from bson.objectid import ObjectId
 from tornado.web import RequestHandler
-from pymongo import DeleteOne, DeleteMany
 
 def refactor_date(d):
     if isinstance(d, datetime):
@@ -91,5 +90,4 @@ class Base(RequestHandler):
             doc = cursor.next_object()
             doc['_id'] = str(doc['_id'])
             data.append(render(doc))
-            print("done")
         return data
