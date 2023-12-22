@@ -14,14 +14,11 @@ ENV APP_WORK_SPACE=$WORK_SPACE
 
 COPY ./app /opt/wx-app/app
 
-COPY ./app.sh /usr/local/bin/app
-
 COPY main.py $WORK_SPACE/main.py
 
 COPY requirements.txt  $WORK_SPACE/requirements.txt
 
 RUN mkdir -p $WORK_SPACE/log && \
-    chmod 511 /usr/local/bin/app &&\
     pip install --upgrade pip && pip install -r $WORK_SPACE/requirements.txt
 
 EXPOSE $WEB_PORT
