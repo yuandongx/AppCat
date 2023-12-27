@@ -11,7 +11,7 @@ class Application:
     Application
     """
 
-    def __init__(self, port=8000):
+    def __init__(self, port=8080):
         """
         __init__
         :param port:
@@ -19,7 +19,8 @@ class Application:
         self.port = port
         self.env = {}
         self.setup()
-        self.db_client = MotorClient(self.env['mongo_url'])
+        mongo_url = self.env.get('mongodb_url') or self.env.get('mongo_url')
+        self.db_client = MotorClient(mongo_url)
 
     def setup(self):
         """
