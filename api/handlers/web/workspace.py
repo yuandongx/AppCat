@@ -57,7 +57,7 @@ async def read_and_save(collection, filename, sheetnames):
     return await collection.bulk_write(updates)
     
 class Upload(Base):
-    
+    urls = ['upload']
     async def get(self):
         sheets = self.get_argument('sheets')
         file_name = self.get_argument('file_name')

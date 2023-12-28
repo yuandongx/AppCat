@@ -23,9 +23,10 @@ def get_module_names(s):
 def get_urls(modules=[], options={}):
     handler_names = []
     rtn = []
-    for item in modules:
-        values = get_module_names(item)
-        for m_name,name,  pkg in values:
+    logger = options.pop('logger')
+    for mod, prefix in modules:
+        values = get_module_names(mod)
+        for m_name, name,  pkg in values:
             module = importlib.import_module(m_name, pkg)
             for attr in dir(module):
                 obj = getattr(module, attr)
@@ -35,7 +36,9 @@ def get_urls(modules=[], options={}):
                             for url in urls:
                                 if url.startswith('/'):
                                     url = url[1:]
-                                rtn.append((f'{name}/{url}', obj, options))
+                                url = f'/{prefix}/{name}/{url}'
+                                logger.info(f'>>> url: {url:<60} module: {name:<40} ')
+                                rtn.append((url, obj, options))
                         except AttributeError:
                             pass
     return rtn
