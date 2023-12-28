@@ -6,11 +6,13 @@ import json
 from bson.objectid import ObjectId
 from tornado.web import RequestHandler
 
+
 def refactor_date(d):
     if isinstance(d, datetime):
         return d.strftime("%Y-%m-%d")
     else:
         return str(d)
+
 
 def render(data):
     if isinstance(data, (str, int, float, bool)):
@@ -23,6 +25,7 @@ def render(data):
         return refactor_date(data)
     return data
 
+
 class Base(RequestHandler):
     '''
     定义集合的名称
@@ -30,15 +33,17 @@ class Base(RequestHandler):
     '''
     default_col_name = None
     default_db_name = None
+    page_size = 10
+    current_page = 1
 
     def initialize(self, db=None):
         '''初始化设置'''
-        now = datetime.now() # 当前年月
+        now = datetime.now()  # 当前年月
         self.current_year = now.year
         self.current_month = now.month
         self.current_day = now.month
         self.current_weekday = now.weekday
-        
+
         # 数据库相关的初始化
         self.default_col_name = self.default_col_name or f'c_{self.current_year}'
         self.default_db_name = self.default_db_name or f'db_{self.current_year}'
@@ -61,14 +66,15 @@ class Base(RequestHandler):
     @staticmethod
     def object_id(_id):
         return ObjectId(_id)
-    
+
     @staticmethod
     def many_ids(array):
         return [{'_id': ObjectId(item) for item in array}]
-    
+
     def find2(self, filters={}):
         data = []
         course = self.collection.find(filters)
+
         def callback(result, error):
             if error:
                 raise error
@@ -78,16 +84,29 @@ class Base(RequestHandler):
                 data.append(result)
             else:
                 print("done")
-                
+
         course.each(callback=callback)
         return data
-    
-    
-    async def find(self, filters={}):
+
+    async def find(self, page_params=None, filters={}):
         data = []
         cursor = self.collection.find(filters)
         while await cursor.fetch_next:
             doc = cursor.next_object()
             doc['_id'] = str(doc['_id'])
             data.append(render(doc))
-        return data
+
+        total = len(data)
+        if page_params is not None:
+            size = int(page_params['size'])
+            current = int(page_params['current'])
+            end = int(current)*int(size)
+            start = end - size
+            if 0 <= start < total:
+                if end < total:
+                    data = data[start: end]
+                else:
+                    data = data[start:]
+            elif start > total:
+                data = data[-size:]
+        return {"total": total, 'currentPage': current, "pageSize": size, "data": data}

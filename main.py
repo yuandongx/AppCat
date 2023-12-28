@@ -1,9 +1,8 @@
 """
 Main the application entry.
 """
-import os
-
-from app.application import Application
+import sys
+from api.application import Application
 
 
 if __name__ == "__main__":

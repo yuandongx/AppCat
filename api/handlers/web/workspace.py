@@ -1,8 +1,7 @@
 
 from pathlib import Path
 
-from tornado import gen
-from pymongo import ReplaceOne, UpdateOne
+from pymongo import ReplaceOne
 from openpyxl import load_workbook
 from .excel_handle.rd import read
 from .base import Base
@@ -13,24 +12,25 @@ from ...settings import get_env
 
 
 class Financial(Base):
+    urls = ['financial', r'financial/(\w+)']
     async def get(self):
-        # print(self.get_argument('q'))
-        data = await self.find()
-        self.json({"data": data})
+        page_size = self.get_query_argument('pageSize', self.page_size)
+        current_page = self.get_query_argument('currentPage', self.current_page)
+        data = await self.find(page_params={"size": page_size, "current": current_page})
+        self.json(data)
 
     async def post(self):
         res = await self.collection.insert_one(self.json_args)
         self.json({"code": 0, "_id": str(res.inserted_id)})
   
-    async def delete(self):
-        delete_id = self.json_args.get('del_ids')
+    async def delete(self, param):
+        delete_id = param or self.json_args.get('del_ids')
         if delete_id is not None:
             if isinstance(delete_id, list):
                 many = self.many_ids(delete_id)
-                result = await self.collection.bulk_write(many)
-                
+                result = await self.collection.bulk_write(many)        
             else:
-                result = await self.collection.delete_one(self.object_id(delete_id))
+                result = await self.collection.delete_one({"_id": self.object_id(delete_id)})
             count = result.deleted_count
             self.json({'code': 0, 'deleted_count': count})
         else:
