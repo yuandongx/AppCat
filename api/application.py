@@ -25,7 +25,7 @@ class Application:
         mongo_url = self.env.get('mongodb_url') or self.env.get('mongo_url')
         self.db_client = MotorClient(mongo_url)
         self.api_modules = [
-            ("api.handlers.web", 'api')
+            ("api.handlers.web", 'apiv1')
         ]
         self.logger = get_logger('app')
 
