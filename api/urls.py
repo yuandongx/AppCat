@@ -1,5 +1,5 @@
 """
-url the router for all handlers.
+url the router for all apiv1.
 """
 import os
 from pathlib import Path
@@ -21,11 +21,11 @@ def get_module_names(s):
     return rtn
 
 
-def get_urls(modules=[], options={}):
+def get_urls(modules={}, options={}):
     handler_names = []
     rtn = []
     logger = options.pop('logger')
-    for mod, prefix in modules:
+    for prefix, mod in modules.items():
         values = get_module_names(mod)
         for m_name, name, pkg in values:
             module = importlib.import_module(m_name, pkg)

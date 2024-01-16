@@ -4,8 +4,9 @@ Application
 from tornado.ioloop import IOLoop
 from tornado.web import Application as App
 from motor.motor_tornado import MotorClient
+
+from .get_env import look_up
 from .urls import get_urls
-from .settings import load_env, setup_env
 from .logger import get_logger
 
 
@@ -22,10 +23,10 @@ class Application:
         self.port = port
         self.env = {}
         self.setup()
-        mongo_url = self.env.get('mongodb_url') or self.env.get('mongo_url')
+        mongo_url = look_up('mongo_url')
         self.db_client = MotorClient(mongo_url)
         self.api_modules = [
-            ("api.handlers.web", 'apiv1')
+            ("api.apiv1.web", 'apiv1')
         ]
         self.logger = get_logger('app')
 
@@ -34,8 +35,7 @@ class Application:
         setup
         :return:
         """
-        setup_env()
-        self.env = load_env()
+        pass
 
     def run(self):
         """
