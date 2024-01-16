@@ -21,6 +21,7 @@ DEFAULT_ENV = {
     'data_file_save_path': "/home/xuyuandong/workspace/daily-work",
 }
 
+
 def load_env():
     config = {"wx_token": "weimaomao"}
     config.update(APPLICATION_SETTINGS)
@@ -32,6 +33,7 @@ def load_env():
             config[_key] = value
     return config
 
+
 def setup_env(**cfg):
     DEFAULT_ENV.update(cfg)
     for k, v in DEFAULT_ENV.items():
@@ -39,6 +41,7 @@ def setup_env(**cfg):
             key = f'{APP_VAR_PREFIX}{k}'
         key = key.upper()
         os.environ[key] = v
+
 
 def get_env(name):
     if not name.startswith(APP_VAR_PREFIX):
@@ -48,6 +51,7 @@ def get_env(name):
         return os.environ[name]
     except:
         return None
+
 
 if __name__ == '__main__':
     cfg = load_env()

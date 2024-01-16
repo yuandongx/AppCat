@@ -5,6 +5,7 @@ from pathlib import Path
 
 from .settings import get_env
 
+
 def get_logger(name, log_dir=None):
     if log_dir is None:
         log_dir = './logs'
