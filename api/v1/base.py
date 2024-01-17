@@ -37,7 +37,7 @@ class Base(RequestHandler):
     current_page = 1
 
     def initialize(self, db=None):
-        '''初始化设置'''
+        """初始化设置"""
         now = datetime.now()  # 当前年月
         self.current_year = now.year
         self.current_month = now.month
@@ -71,7 +71,9 @@ class Base(RequestHandler):
     def many_ids(array):
         return [{'_id': ObjectId(item) for item in array}]
 
-    def find2(self, filters={}):
+    def find2(self, filters=None):
+        if filters is None:
+            filters = {}
         data = []
         course = self.collection.find(filters)
 
@@ -88,7 +90,10 @@ class Base(RequestHandler):
         course.each(callback=callback)
         return data
 
-    async def find(self, page_params=None, filters={}):
+    async def find(self, page_params=None, filters=None):
+        current, size = 0, 10
+        if filters is None:
+            filters = {}
         data = []
         cursor = self.collection.find(filters)
         while await cursor.fetch_next:

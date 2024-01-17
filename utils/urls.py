@@ -1,5 +1,5 @@
 """
-url the router for all apiv1.
+url the router for all api.
 """
 import os
 from pathlib import Path
@@ -28,7 +28,7 @@ def get_urls(root, modules=None, options=None):
     handler_names = []
     rtn = []
     logger = options.pop('logger')
-    for prefix, pkg in modules.items():
+    for name, pkg in modules.items():
         values = get_module_names(root, pkg)
         for mode in values:
             module = importlib.import_module(mode, pkg)
@@ -53,5 +53,4 @@ def get_urls(root, modules=None, options=None):
 
 
 if __name__ == '__main__':
-    res = get_urls()
-    print(res)
+    pass

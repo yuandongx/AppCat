@@ -51,8 +51,8 @@ def get_sheet_names(file_name):
     return res
 
 
-async def read_and_save(collection, filename, sheetnames):
-    result = read(filename, sheetnames)
+async def read_and_save(collection, filename, sheet_names):
+    result = read(filename, sheet_names)
     updates = []
     filter_keys = ('CompanyName', 'InvoiceDate', 'InvoiceAmount')
     for item in result:
@@ -94,7 +94,8 @@ class Upload(Base):
                 continue
         self.json(rtn)
 
-    def get_file_name(self, name):
+    @staticmethod
+    def get_file_name(name):
         pth = look_up('data_file_save_path')
         if not pth:
             pth = '.'
