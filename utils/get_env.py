@@ -1,5 +1,5 @@
 import os
-from . import settings
+import settings
 
 
 def look_up(name, default=None):

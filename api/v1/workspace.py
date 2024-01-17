@@ -2,9 +2,10 @@ from pathlib import Path
 
 from pymongo import ReplaceOne
 from openpyxl import load_workbook
-from .excel_handle.rd import read
-from .base import Base
-from ...get_env import look_up
+
+from utils.excel_handle.rd import read
+from utils.get_env import look_up
+from api.v1.base import Base
 
 """
 财务视图

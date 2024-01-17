@@ -3,7 +3,7 @@ from logging.handlers import TimedRotatingFileHandler
 import os
 from pathlib import Path
 
-from .settings import get_env
+from utils.get_env import look_up
 
 
 def get_logger(name, log_dir=None):
@@ -13,7 +13,7 @@ def get_logger(name, log_dir=None):
     if not log_path.exists():
         print(f'日志路径: {log_path}不存在，创建路径。')
         os.makedirs(log_path)
-    log_level = get_env('log_level')
+    log_level = look_up('log_level')
     log_level = log_level or logging.INFO
     log = logging.getLogger(name)
     log.setLevel(log_level)

@@ -5,7 +5,7 @@ import time
 import hashlib
 from xml.etree import ElementTree as ET
 from .base import BaseHandler
-from ...settings import WX_TOKEN
+from settings import WX_TOKEN
 
 
 def parse_msg_body(msg):

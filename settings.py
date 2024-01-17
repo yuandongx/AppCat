@@ -5,9 +5,9 @@ settings for application
 # 自定义APP变量的前缀值
 APP_VAR_PREFIX = "app_"
 
-# app model列表
+# app api model列表, 只有在这表时的module查会找查对应的url，生成对应的url
 API_MODEL_LIST = {
-    "apiv1": "apiv1.web"
+    "api.v1": "api.v1"
 }
 
 APPLICATION_SETTINGS = {

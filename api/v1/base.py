@@ -27,10 +27,10 @@ def render(data):
 
 
 class Base(RequestHandler):
-    '''
+    """
     定义集合的名称
     定义数据库的名称
-    '''
+    """
     default_col_name = None
     default_db_name = None
     page_size = 10
