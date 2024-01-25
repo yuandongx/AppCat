@@ -25,7 +25,7 @@ class Application:
         self.port = settings.APP_PORT
         self.env = {}
         self.setup()
-        mongo_url = look_up('mongo_url')
+        mongo_url = look_up('mongodb_url')
         self.db_client = MotorClient(mongo_url)
         self.logger = get_logger('app')
 

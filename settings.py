@@ -17,7 +17,7 @@ APPLICATION_SETTINGS = {
     "debug": True,
     "autoreload": True,
 }
-APP_MONGO_URL = "mongodb://root:admin$12345@127.0.0.1:27017/"
+APP_MONGODB_URL = "mongodb://root:admin$12345@127.0.0.1:27017/"
 
 WX_TOKEN = "weimaomao"
 
