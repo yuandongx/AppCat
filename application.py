@@ -18,12 +18,11 @@ class Application:
     Application
     """
 
-    def __init__(self, port=8000):
+    def __init__(self):
         """
         __init__
-        :param port:
         """
-        self.port = port
+        self.port = settings.APP_PORT
         self.env = {}
         self.setup()
         mongo_url = look_up('mongo_url')
