@@ -22,8 +22,14 @@ class Financial(Base):
         self.json(data)
 
     async def post(self):
-        res = await self.collection.insert_one(self.json_args)
-        self.json({"code": 0, "_id": str(res.inserted_id)})
+
+        if _id := self.json_args.pop('_id', None):
+            oid = self.object_id(_id)
+            res = await self.collection.replace_one({'_id': oid}, self.json_args, upsert=True)
+            self.json({'code': 0, '_id': _id, 'modified_count': res.modified_count})
+        else:
+            res = await self.collection.insert_one(self.json_args)
+            self.json({"code": 0, "_id": str(res.inserted_id)})
 
     async def delete(self, param):
         delete_id = param or self.json_args.get('del_ids')

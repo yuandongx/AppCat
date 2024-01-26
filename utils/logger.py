@@ -8,7 +8,7 @@ from utils.get_env import look_up
 
 def get_logger(name, log_dir=None):
     if log_dir is None:
-        log_dir = './logs'
+        log_dir = look_up('LOG_DIR_PATH')
     log_path = Path(log_dir)
     if not log_path.exists():
         print(f'日志路径: {log_path}不存在，创建路径。')

@@ -63,6 +63,7 @@ class Base(RequestHandler):
         else:
             self.json_args = None
 
+
     @staticmethod
     def object_id(_id):
         return ObjectId(_id)
@@ -105,7 +106,7 @@ class Base(RequestHandler):
         if page_params is not None:
             size = int(page_params['size'])
             current = int(page_params['current'])
-            end = int(current)*int(size)
+            end = int(current) * int(size)
             start = end - size
             if 0 <= start < total:
                 if end < total:
